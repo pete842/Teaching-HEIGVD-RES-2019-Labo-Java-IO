@@ -66,7 +66,7 @@ public class FileNumberingFilterWriter extends FilterWriter {
     }
 
     private void writeLineNumber(int i) throws IOException {
-        for (int c : Integer.toString(i).toCharArray())
-            super.write(c);
+        String number = Integer.toString(i);
+        super.write(number, 0, number.length());
     }
 }

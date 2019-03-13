@@ -4,6 +4,7 @@ import ch.heigvd.res.labio.interfaces.IFileExplorer;
 import ch.heigvd.res.labio.interfaces.IFileVisitor;
 import java.io.File;
 import java.util.Arrays;
+import java.util.InvalidPropertiesFormatException;
 
 /**
  * This implementation of the IFileExplorer interface performs a depth-first
@@ -26,10 +27,10 @@ public class DFSFileExplorer implements IFileExplorer {
     if(!file.isDirectory())
       return;
 
-    File[] filesArray = file.listFiles();
-    Arrays.sort(filesArray);
+    File[] files = file.listFiles();
+    Arrays.sort(files);
 
-    for (File f : filesArray) {
+    for (File f : files) {
       exploreRec(f, visitor);
     }
   }
