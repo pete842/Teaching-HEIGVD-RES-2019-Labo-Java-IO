@@ -25,19 +25,19 @@ public class Utils {
     int i;
     int lineLength = lines.length();
 
-    for (i = 0; i < lineLength; ++i) {
-      if (lines.charAt(i) == '\n') {
-        break;
-      } else if (lines.charAt(i) == '\r') {
-        if (i + 1 < lineLength && lines.charAt(i+1) == '\n') {
-          ++i;
-        }
-        break;
+    linesLoop: for (i = 0; i < lineLength; ++i) {
+      switch(lines.charAt(i)) {
+        case '\r':
+          if (i + 1 < lineLength && lines.charAt(i+1) == '\n')
+            ++i;
+        case '\n':
+          break linesLoop;
+        default:
+          break;
       }
     }
-    ++i;
 
-    if (i > lineLength)
+    if (++i > lineLength)
       i = 0;
 
     res[0] = lines.substring(0, i);
