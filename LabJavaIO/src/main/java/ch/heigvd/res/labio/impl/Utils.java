@@ -22,28 +22,30 @@ public class Utils {
   public static String[] getNextLine(String lines) {
     String[] res = new String[2];
 
+    int index = getNextNewlineIndex(lines);
+
+    res[0] = lines.substring(0, index);
+    res[1] = lines.substring(index);
+
+    return res;
+  }
+
+  private static int getNextNewlineIndex(String lines) {
     int i;
     int lineLength = lines.length();
 
-    linesLoop: for (i = 0; i < lineLength; ++i) {
+    for (i = 0; i < lineLength; ++i) {
       switch(lines.charAt(i)) {
         case '\r':
           if (i + 1 < lineLength && lines.charAt(i+1) == '\n')
             ++i;
         case '\n':
-          break linesLoop;
+          return ++i;
         default:
           break;
       }
     }
 
-    if (++i > lineLength)
-      i = 0;
-
-    res[0] = lines.substring(0, i);
-    res[1] = lines.substring(i);
-
-    return res;
+    return i == lineLength ? 0 : ++i;
   }
-
 }
