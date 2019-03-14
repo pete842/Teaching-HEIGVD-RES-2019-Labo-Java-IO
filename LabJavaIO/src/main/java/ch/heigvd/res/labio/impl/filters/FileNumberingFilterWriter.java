@@ -43,30 +43,29 @@ public class FileNumberingFilterWriter extends FilterWriter {
     @Override
     public void write(int c) throws IOException {
         //throw new UnsupportedOperationException("The student has not implemented this method yet.");
-        switch (c) {
-            case '\r':
-                super.write(c);
-                newLine = true;
-                break;
-            case '\n':
-                super.write(c);
-                writeLineNumber(++currentLine);
-                super.write('\t');
-                newLine = false;
-                break;
-            default:
-                if (newLine) {
-                    writeLineNumber(++currentLine);
-                    super.write('\t');
-                    newLine = false;
-                }
-                super.write(c);
-                break;
+        if (c == '\r') {
+            super.write(c);
+            newLine = true;
+            return;
         }
+
+        if (c == '\n') {
+            super.write(c);
+            startNewline(++currentLine);
+            return;
+        }
+
+        if (newLine) {
+            startNewline(++currentLine);
+        }
+
+        super.write(c);
     }
 
-    private void writeLineNumber(int i) throws IOException {
+    private void startNewline(int i) throws IOException {
         String number = Integer.toString(i);
         super.write(number, 0, number.length());
+        super.write('\t');
+        newLine = false;
     }
 }
